@@ -64,11 +64,14 @@ def load_datasets(train_path, test_path):
     train_data = pd.read_csv(train_path, header=None,names=columns)
     test_data = pd.read_csv(test_path, header=None, names=columns)
     
-    train_data["binary_label"] = train_data["label"] != "normal"
-    test_data["binary_label"] = test_data["label"] != "normal"
+    train_data["binary_label"] = (train_data["label"] != "normal").astype(int)
+    test_data["binary_label"] = (test_data["label"] != "normal").astype(int)
     
     train_data["attack_cat"] = train_data["label"].map(map_attack_category)
     test_data["attack_cat"] = test_data["label"].map(map_attack_category)
+    
+    train_data = train_data.drop(columns=["difficulty"])
+    test_data = test_data.drop(columns=["difficulty"]) 
     
     print("Train data: ", train_data.shape)
     print("Test data: ", test_data.shape)
@@ -83,7 +86,7 @@ def stats(df, phase="Train"):
     order = ["normal", "DoS", "Probe", "R2L", "U2R"]
     counts = df["attack_cat"].value_counts().reindex(order)
     # print(counts)
-    bars = ax1.bar(counts.index, counts.values)
+    ax1.bar(order, counts.values)
     ax1.set_title("Attack Category Distribution")
     ax1.set_xlabel("Category")
     ax1.set_ylabel("Count")
@@ -96,7 +99,8 @@ def stats(df, phase="Train"):
     plt.tight_layout()
     plt.savefig(f"results/class_distribution_{phase}.png", dpi=150, bbox_inches="tight")
 
-train_data, test_data = load_datasets(train_data_path, test_data_path)
-stats(train_data, phase="Train")
-stats(test_data, phase="Test")
+if __name__ == "__main__":
+    train_data, test_data = load_datasets(train_data_path, test_data_path)
+    stats(train_data, phase="Train")
+    stats(test_data, phase="Test")
      
