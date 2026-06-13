@@ -11,7 +11,7 @@ cont_cols = []
 
 def preprocess(train_df, test_df):
     cont_cols = [col for col in train_df.columns if col not in categ_cols + label_cols]
-    train, val = train_test_split(train_df, test_size=0.2, random_state=42)
+    train, val = train_test_split(train_df, test_size=0.2, random_state=42, stratify=train_df["attack_cat"])
     
     X_train = train[categ_cols + cont_cols]
     X_val = val[categ_cols + cont_cols]
@@ -37,9 +37,9 @@ def preprocess(train_df, test_df):
     print("X_val size: ", X_val.shape[0])
     print("X_test size: ", X_test.shape[0])
     
-    return X_train, X_val, X_test, y_train_bin, y_val_bin, y_test_bin, y_train_cat, y_val_cat, y_test_cat, preprocessor
+    return X_train, X_val, X_test, y_train_bin, y_val_bin, y_test_bin, y_train_cat, y_val_cat, y_test_cat
    
    
 if __name__ == "__main__":    
     train_df, test_df = load_datasets("./data/NSL-KDD/KDDTrain+.txt", "./data/NSL-KDD/KDDTest+.txt") 
-    (X_train, X_val, X_test, y_train_bin, y_val_bin, y_test_bin, y_train_cat, y_val_cat, y_test_cat, preprocessor) = preprocess(train_df, test_df)
+    (X_train, X_val, X_test, y_train_bin, y_val_bin, y_test_bin, y_train_cat, y_val_cat, y_test_cat) = preprocess(train_df, test_df)

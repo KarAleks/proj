@@ -13,24 +13,6 @@ MODELS = {"Decision Tree depth=5": DecisionTreeClassifier(max_depth=5,random_sta
           "Decision Tree depth=20": DecisionTreeClassifier(max_depth=20, random_state=random_state, class_weight="balanced"),
           "Boosting": HistGradientBoostingClassifier(random_state=random_state), "Naive Bayes": GaussianNB(),}
 
-# def evaluate(y_true, y_pred, y_proba=None, experiment="binary"):
-#     if experiment == "binary":
-#         average = "binary"
-#     else:
-#         average = "macro"
-
-#     acc = accuracy_score(y_true, y_pred)
-#     precision = precision_score(y_true, y_pred, average=average)
-#     recall = recall_score(y_true, y_pred, average=average)
-#     f1 = f1_score(y_true, y_pred, average=average, zero_division=0)
-#     results = {"accuracy": acc, "f1": f1, "precision": precision, "recall": recall}
-
-#     if y_proba is not None:
-#             if experiment == "binary":
-#                 results["auc"] = roc_auc_score(y_true, y_proba[:, 1])
-#             else:
-#                 results["auc"] = roc_auc_score(y_true, y_proba, multi_class="ovr", average="macro")
-#     return results
 def evaluate(model, X, y, model_name, split_name, experiment="binary"):
     y_pred = model.predict(X)
     
@@ -70,7 +52,7 @@ def plot_confusion_matrix(model, X_test, y_test, labels, save_path=None):
     ax.set_title("Confusion Matrix")
     plt.tight_layout()
     plt.savefig(save_path, dpi=300)
-    plt.show()
+    # plt.show()
 
 def plot_model_comparision(results_df, metrics, save_path=None):
     x = np.arange(len(metrics))
@@ -108,4 +90,4 @@ def plot_feature_importance(model, feature_names, top_k=15, save_path=None):
     plt.tight_layout()
 
     plt.savefig(save_path, dpi=300)
-    plt.show()
+    # plt.show()
