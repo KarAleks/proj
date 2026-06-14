@@ -32,7 +32,7 @@ def grid_search_rf(X_train, y_train, X_val, y_val):
     return best_model, best_params
 
 train_df, test_df = load_datasets("./data/NSL-KDD/KDDTrain+.txt", "./data/NSL-KDD/KDDTest+.txt")
-X_train, X_val, X_test, y_train_bin, y_val_bin, y_test_bin, y_train_cat, y_val_cat, y_test_cat, preprocessor = preprocess(train_df, test_df)
+X_train, X_val, X_test, y_train_bin, y_val_bin, y_test_bin, y_train_cat, y_val_cat, y_test_cat = preprocess(train_df, test_df)
 results = []
 
 for model_name, model in MODELS.items():

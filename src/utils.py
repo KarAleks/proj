@@ -29,11 +29,11 @@ def evaluate(model, X, y, model_name, split_name, experiment="binary"):
     results = {"model": model_name, "split": split_name, "accuracy": acc, "precision": precision, "recall": recall, "f1": f1, "auc": None}
 
     if hasattr(model, "predict_proba"):
-            y_proba = model.predict_proba(X)
-            if experiment == "binary":
-                results["auc"] = roc_auc_score(y, y_proba[:, 1])
-            else:
-                results["auc"] = roc_auc_score(y, y_proba, multi_class="ovr", average="macro")
+        y_proba = model.predict_proba(X)
+        if experiment == "binary":
+            results["auc"] = roc_auc_score(y, y_proba[:, 1])
+        else:
+            results["auc"] = roc_auc_score(y, y_proba, multi_class="ovr", average="macro")
                 
     print(f"\n{model_name} — {split_name}")
     print(f"accuracy:  {acc:.4f}")
@@ -48,7 +48,7 @@ def evaluate(model, X, y, model_name, split_name, experiment="binary"):
 
 def plot_confusion_matrix(model, X_test, y_test, labels, save_path=None):
     _ , ax = plt.subplots(figsize=(7, 6))
-    ConfusionMatrixDisplay.from_estimator(model, X_test, y_test, display_labels=labels, xticks_rotation=45, ax=ax)
+    ConfusionMatrixDisplay.from_estimator(model, X_test, y_test, labels=model.classes_, display_labels=model.classes_, xticks_rotation=45, ax=ax)
     ax.set_title("Confusion Matrix")
     plt.tight_layout()
     plt.savefig(save_path, dpi=300)
