@@ -16,9 +16,8 @@ def grid_search_rf(X_train, y_train, X_val, y_val):
         for max_depth in [5, 10, 20, None]:
             model = RandomForestClassifier(n_estimators=n_estimators, max_depth=max_depth, 
                                            random_state=42, class_weight="balanced", n_jobs=-1)
-
             model.fit(X_train, y_train)
-            val_result = val_result = evaluate(model, X_val, y_val, model_name="Random Forest", split_name="val")
+            val_result = evaluate(model, X_val, y_val, model_name="Random Forest", split_name="val")
             val_f1 = val_result["f1"]
             print(f"Random Forest: n_estimators={n_estimators}, max_depth={max_depth},val_f1={val_f1:.4f}")
 
